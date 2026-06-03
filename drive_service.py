@@ -1,9 +1,15 @@
 import os
+import re
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 
 load_dotenv()
+
+def sanitize_string(text: str) -> str:
+    """Remove control characters from string."""
+    # This regex removes characters in the control range
+    return re.sub(r'[\x00-\x1f\x7f]', '', text)
 
 def get_drive_service():
     creds_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
@@ -24,20 +30,17 @@ def get_gallery_data():
     gallery = {}
     
     for folder in folders:
-        service.permissions().create(
-                fileId=folder["id"],
-                body={'type': 'anyone', 'role': 'reader'}
-            ).execute()
+        folder_name = sanitize_string(folder['name'])
+        
         # Get images in the subfolder
-        # Note: In a real scenario, you might want to filter by mimeType, e.g., 'image/jpeg'
         files_query = f"'{folder['id']}' in parents and trashed = false"
         files = service.files().list(
             q=files_query, 
             fields="files(id, name)"
         ).execute().get("files", [])
         
-        gallery[folder['name']] = [
-            {"name": f['name'], "link": f"https://drive.google.com/thumbnail?sz=w1200&id={f['id']}"} for f in files
+        gallery[folder_name] = [
+            {"name": sanitize_string(f['name']), "link": f"https://drive.google.com/uc?export=view&id={f['id']}"} for f in files
         ]
         
     return gallery
