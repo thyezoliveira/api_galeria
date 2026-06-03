@@ -4,7 +4,7 @@ API FastAPI para integração com Google Drive, exibindo galerias de imagens cat
 
 ## Pré-requisitos
 
-* [Bun](https://bun.sh/) instalado.
+* [uv](https://github.com/astral-sh/uv) instalado para gerenciamento de ambiente e pacotes Python.
 * Conta de serviço do Google Cloud (com permissão de acesso à pasta do Drive).
 
 ## Configuração
@@ -20,11 +20,11 @@ API FastAPI para integração com Google Drive, exibindo galerias de imagens cat
 
 ## Como Rodar Localmente
 
-Utilize o Bun para instalar as dependências e rodar a aplicação:
+Utilize o `uv` para instalar as dependências e rodar a aplicação:
 
 ```bash
-bun install
-bun run main.py
+uv sync
+uv run main.py
 ```
 
 ## Deploy no Render
@@ -34,3 +34,4 @@ Para rodar no Render, configure o `Start Command` como:
 python main.py
 ```
 Certifique-se de configurar as variáveis de ambiente (`GOOGLE_DRIVE_FOLDER_ID` e o conteúdo da `GOOGLE_APPLICATION_CREDENTIALS` como uma variável de ambiente do tipo texto ou arquivo, dependendo da configuração do Render).
+Certifique-se também de que o ambiente do Render esteja configurado para instalar dependências usando o `uv` se necessário, ou apenas garantir que o Python esteja instalado e que as dependências sejam instaladas via `pip` ou `uv` durante o build.
