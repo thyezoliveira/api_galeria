@@ -1,0 +1,13 @@
+[project]
+name = "api-galeria"
+version = "0.1.0"
+description = "FastAPI gallery API integration with Google Drive"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "google-api-python-client",
+    "google-auth",
+    "python-dotenv"
+]

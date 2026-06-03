@@ -1,0 +1,10 @@
+# Sensitive information
+.env
+creds.json
+
+# Dependencies and virtual environments
+__pycache__/
+uv.lock
+.venv/
+venv/
+env/
