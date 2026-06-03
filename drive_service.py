@@ -30,7 +30,8 @@ def get_gallery_data():
     gallery = {}
     
     for folder in folders:
-        folder_name = sanitize_string(folder['name'])
+        # Use simple string handling for names
+        folder_name = str(folder['name'])
         
         # Get images in the subfolder
         files_query = f"'{folder['id']}' in parents and trashed = false"
@@ -40,7 +41,7 @@ def get_gallery_data():
         ).execute().get("files", [])
         
         gallery[folder_name] = [
-            {"name": sanitize_string(f['name']), "link": f"https://drive.google.com/uc?export=view&id={f['id']}"} for f in files
+            {"name": str(f['name']), "link": f"https://drive.google.com/thumbnail?sz=w1200&id={f['id']}"} for f in files
         ]
         
     return gallery
